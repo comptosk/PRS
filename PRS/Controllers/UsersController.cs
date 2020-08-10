@@ -103,6 +103,26 @@ namespace PRS.Controllers
             return CreatedAtAction("GetUser", new { id = user.Id }, user);
         }
 
+        // POST: api/Users/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for
+        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+
+        [HttpPost("update/{id}")]
+        public async Task<IActionResult>  UpdateUser(int id, User user)
+        {
+            return await PutUser(id, user);
+        }
+
+        // POST: api/Users/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for
+        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+        [HttpPost("delete/{id}")]
+        public async Task<ActionResult<User>> RemoveUser(int id)
+        {
+            return await DeleteUser(id);
+        }
+
+
         // DELETE: api/Users/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<User>> DeleteUser(int id)

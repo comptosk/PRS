@@ -25,9 +25,9 @@ namespace PRS.Models {
         public string State { get; set; }
         [StringLength(5)]
         [Required]
-        public int Zip { get; set; }
+        public string Zip { get; set; }
         [StringLength(12)]
-        public int Phone { get; set; }
+        public string Phone { get; set; }
         [StringLength(255)]
         public string Email { get; set; }
 

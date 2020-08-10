@@ -26,6 +26,7 @@ namespace PRS {
             services.AddDbContext<PRSDbContext>(options => {
                 options.UseLazyLoadingProxies();
                 options.UseSqlServer(Configuration.GetConnectionString("PRSDbContext"));
+                //options.UseSqlServer(Configuration.GetConnectionString("Winhost"));//
             });
 
             services.AddCors();
@@ -39,7 +40,7 @@ namespace PRS {
             if (env.IsDevelopment()) {
                 app.UseDeveloperExceptionPage();
             }
-            app.UseCors(x => x.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
+            app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
             app.UseRouting();
 

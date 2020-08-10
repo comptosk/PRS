@@ -55,6 +55,8 @@ namespace PRS.Migrations
                     b.HasIndex("PartNbr")
                         .IsUnique();
 
+                    b.HasIndex("VendorId");
+
                     b.ToTable("Product");
                 });
 
@@ -204,8 +206,8 @@ namespace PRS.Migrations
                         .HasColumnType("nvarchar(30)")
                         .HasMaxLength(30);
 
-                    b.Property<int>("Phone")
-                        .HasColumnType("int")
+                    b.Property<string>("Phone")
+                        .HasColumnType("nvarchar(12)")
                         .HasMaxLength(12);
 
                     b.Property<string>("State")
@@ -213,8 +215,9 @@ namespace PRS.Migrations
                         .HasColumnType("nvarchar(2)")
                         .HasMaxLength(2);
 
-                    b.Property<int>("Zip")
-                        .HasColumnType("int")
+                    b.Property<string>("Zip")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(5)")
                         .HasMaxLength(5);
 
                     b.HasKey("Id");
@@ -223,6 +226,15 @@ namespace PRS.Migrations
                         .IsUnique();
 
                     b.ToTable("Vendor");
+                });
+
+            modelBuilder.Entity("PRS.Models.Product", b =>
+                {
+                    b.HasOne("PRS.Models.Vendor", "Vendor")
+                        .WithMany()
+                        .HasForeignKey("VendorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("PRS.Models.Requestline", b =>
