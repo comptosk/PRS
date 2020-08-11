@@ -45,6 +45,7 @@ namespace PRS.Controllers
 
 
         [HttpPut("TOTAL")]
+
         private async Task RecalculateTotal(int requestId) {
             var request = await _context.Request.FindAsync(requestId);
             if (request == null) throw new Exception("Request not found.");
@@ -54,6 +55,11 @@ namespace PRS.Controllers
                              }).Sum(x => x.Subtotal);
             await _context.SaveChangesAsync();
 
+        }
+
+        private async Task RefreshRequestline(Requestline requestline) {
+            _context.Entry(requestline).State = EntityState.Detached;
+            await _context.Requestline.FindAsync(requestline.Id);
         }
 
             // PUT: api/Requestlines/5
@@ -85,7 +91,8 @@ namespace PRS.Controllers
                     throw;
                 }
             }
-
+            await RefreshRequestline(requestline);
+            await RecalculateTotal(requestline.RequestId);
             return NoContent();
         }
 
@@ -97,6 +104,9 @@ namespace PRS.Controllers
         {
             _context.Requestline.Add(requestline);
             await _context.SaveChangesAsync();
+
+            await RefreshRequestline(requestline);
+            await RecalculateTotal(requestline.RequestId);
 
             return CreatedAtAction("GetRequestline", new { id = requestline.Id }, requestline);
         }
